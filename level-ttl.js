@@ -220,15 +220,15 @@ var startTtl = function (db, checkFrequency) {
         , checkFrequency : DEFAULT_FREQUENCY
       }, options)
 
-      db = sublevel(db)
-
       db._ttl = {
-          put   : db.put
-        , del   : db.del
-        , batch : db.batch
+          put   : db.put.bind(db)
+        , del   : db.del.bind(db)
+        , batch : db.batch.bind(db)
         , close : db.close
-        , sub   : db.sublevel(options.sublevel)
       }
+
+      db = sublevel(db)
+      db._ttl.sub = db.sublevel(options.sublevel)
 
       db[options.methodPrefix + 'put']   = put.bind(null, db)
       db[options.methodPrefix + 'del']   = del.bind(null, db)
