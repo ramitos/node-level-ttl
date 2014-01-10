@@ -212,7 +212,7 @@ var startTtl = function (db, checkFrequency) {
 
   , setup = function (db, options) {
       if (db._ttl)
-        return
+        return db
 
       options = xtend({
           methodPrefix   : ''
